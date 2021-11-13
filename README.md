@@ -5,16 +5,16 @@ This workshop is designed as an overview of *some* of the tools for writing Shin
 Here are the packages that we'll use in this workshop:
 ```R
 # The absolute minimum
-install.package("shiny")
-install.package("ggplot")
-install.package("plotly")
+install.packages("shiny")
+install.packages("ggplot")
+install.packages("plotly")
 
 # Package for profiling code
-install.package("profvis")
+install.packages("profvis")
 
 # Packages for making your application look different
-install.package("flexdashboard")
-install.package("bslib")
+install.packages("flexdashboard")
+install.packages("bslib")
 ```
 # The general structure of this workshop
 If you are familiar with writing R code, then you probably won't have much trouble converting it to work with user selectable inputs. In fact, that's how this workshop starts! We'll look at an R notebook that makes cool example visualizations with a toy dataset. Then we'll look at what it takes to convert that R notebook into a functioning Shiny app.
