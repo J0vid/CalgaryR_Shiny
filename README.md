@@ -27,6 +27,9 @@ After reactivity, we'll go over customizing the look of your Shiny app with pack
 
 Finally, we'll cover a few options for deploying your Shiny app to the web. 
 
+# The dataset
+We will be using Health Canada's nutrient dataset to look at nutrient values for a variety of ingredients. This workshop is based off of [yihanwu's excellent Shiny app](https://github.com/yihanwu/Nutrient_Calculator).
+
 ---
 
 # Where to go from here
