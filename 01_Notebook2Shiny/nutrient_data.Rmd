@@ -1,0 +1,34 @@
+---
+title: "Nutrient data"
+output: html_notebook
+---
+
+# Here's our starting notebook analysis of the Health Canada nutrient dataset
+
+```{r libraries and data importing}
+library(ggplot2)
+library(dplyr)
+library(DT)
+
+# What's in this Rdata file: save(ca_conversion_factor, ca_food_choices, ca_food_group, ca_food_name, ca_food_source, ca_measure_name, ca_nutrient_amount, ca_nutrient_name, ca_nutrient_source, ca_refuse_amount, ca_refuse_name, ca_yield_amount, ca_yield_name, daily_value, file = "nutrient_data.Rdata")
+
+load("nutrient_data.Rdata")
+```
+
+We've got our data loaded, now what do we want to know?
+
+```{r explore the structure of the data}
+
+ca_food_group
+
+
+```
+
+```{r what does my daily coffee look like?}
+
+
+
+```
+
+
+
