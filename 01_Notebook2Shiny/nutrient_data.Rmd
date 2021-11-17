@@ -28,19 +28,22 @@ head(ca_food_name)
 ```{r what do my daily coffee macros look like, message = FALSE}
 
 #I'll need the ingredients, the amounts, and their respective macronutrients
+food_choice <- "Coffee, brewed, prepared with tap water"
+food_amount <- 250
+
 measure_df <- ca_food_name %>%
-  filter(FoodDescription == "Coffee, brewed, prepared with tap water") %>% 
+  filter(FoodDescription == food_choice) %>% 
   select(FoodID) %>%
   left_join(ca_conversion_factor) %>% 
   left_join(ca_measure_name) %>% 
   select(numeric, units, description, ConversionFactorValue, MeasureID, FoodID) 
 
 measure_food_df <- measure_df %>%
-  filter(numeric == 250) %>%
+  filter(numeric == min(numeric)) %>%
       left_join(ca_nutrient_amount) %>%
       left_join(ca_nutrient_name) %>%
       mutate(NutrientName = tolower(NutrientName)) %>%
-      mutate(NutrientValue = NutrientValue * ConversionFactorValue * 250 / numeric) %>%
+      mutate(NutrientValue = NutrientValue * ConversionFactorValue * food_amount / numeric) %>%
     select(NutrientName, NutrientValue, NutrientID, NutrientUnit, ConversionFactorValue, FoodID) %>% 
       group_by(NutrientName) %>% 
       summarize(Value = round(sum(NutrientValue, na.rm = T), digits = 2),

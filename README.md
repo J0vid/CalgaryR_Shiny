@@ -31,6 +31,8 @@ Finally, we'll cover a few options for deploying your Shiny app to the web.
 # The dataset
 We will be using Health Canada's nutrient dataset to look at nutrient values for a variety of ingredients. This workshop is based off of [yihanwu's excellent Shiny app](https://github.com/yihanwu/Nutrient_Calculator).
 
+I picked this dataset because the amount of stuff to explore in it is immense. There are over 5000 food items to select, and for each of them we can look at the associated nutrient information. There are many ways you could choose to visualize the nutrition data. For instance, we could look at the raw nutritional value vs the percent of the daily recommended value. We could plot the information or put it in a table. We could even combine food items and estimate their total nutritional content. 
+
 ---
 
 # Where to go from here
