@@ -1,4 +1,4 @@
-# CalgaryR_Shiny
+# Introduction to Shiny apps in R
 This workshop is designed as an overview of *some* of the tools for writing Shiny apps. [Shiny](https://shiny.rstudio.com) is an R package for writing web applications around your code and data. If you've never heard of Shiny before, have a quick look at [this](https://shiny.rstudio.com/gallery/) excellent gallery of example web apps that have been curated by Rstudio.
 
 # What you'll need for this workshop
