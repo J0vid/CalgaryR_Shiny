@@ -15,20 +15,97 @@ library(DT)
 load("nutrient_data.Rdata")
 ```
 
-We've got our data loaded, now what do we want to know?
+# We've got our data loaded, now what do we want to know?
 
-```{r explore the structure of the data}
+```{r explore the structure of the data a bit, message = FALSE}
 
 ca_food_group
-
-
-```
-
-```{r what does my daily coffee look like?}
-
-
+head(ca_food_name)
 
 ```
 
+# What do my daily coffee macros look like?
+```{r what do my daily coffee macros look like?, message = FALSE}
 
+#I'll need the ingredients, the amounts, and their respective macronutrients
+measure_df <- ca_food_name %>%
+  filter(FoodDescription == "Coffee, brewed, prepared with tap water") %>% 
+  select(FoodID) %>%
+  left_join(ca_conversion_factor) %>% 
+  left_join(ca_measure_name) %>% 
+  select(numeric, units, description, ConversionFactorValue, MeasureID, FoodID) 
 
+measure_food_df <- measure_df %>%
+  filter(numeric == 250) %>%
+      left_join(ca_nutrient_amount) %>%
+      left_join(ca_nutrient_name) %>%
+      mutate(NutrientName = tolower(NutrientName)) %>%
+      mutate(NutrientValue = NutrientValue * ConversionFactorValue * 250 / numeric) %>%
+    select(NutrientName, NutrientValue, NutrientID, NutrientUnit, ConversionFactorValue, FoodID) %>% 
+      group_by(NutrientName) %>% 
+      summarize(Value = round(sum(NutrientValue, na.rm = T), digits = 2),
+                Unit = NutrientUnit,
+                NutrientID = NutrientID)
+  
+select_nutrients <- c("calcium", "carbohydrate, total (by difference)", "cholesterol", "energy (kilocalories)", "fat (total lipids)", "fatty acids, saturated, total", "fatty acids, trans, total", "fibre, total dietary", "iron", "protein", "retinol activity equivalents", "sodium", "sugars, total", "vitamin c")
+   
+macro_df <- measure_food_df %>% filter(NutrientName %in% select_nutrients) %>%
+  select(NutrientName, NutrientID, Value, Unit) %>%
+  arrange(-Value)
+
+scaled_macro_df <- daily_value %>% 
+  left_join(macro_df) %>%
+  filter(Group == "macronutrients") %>%
+  mutate(Scaled_dv = round(Value/DV, digits = 3) * 100) %>%
+  na.omit()
+  
+#look at our dataframe
+scaled_macro_df
+
+#get rid of funky unit name that causes issues
+scaled_macro_df[scaled_macro_df$Unit == "\xb5g", "Unit"] <- "g"
+  
+nutrient_plot <- ggplot(scaled_macro_df) +
+  geom_bar(stat = "identity", aes(x = reorder(NutrientName, Scaled_dv), Scaled_dv)) +
+  xlab("Nutrient name") +
+  ylab("% Daily value") +
+  coord_flip()
+
+nutrient_plot
+
+#interactive version of the plot with the value as a hovering tooltip
+ggplotly(nutrient_plot, tooltip = "y")
+
+```
+
+# What does my daily coffee mineral intake look like?
+```{r what does my daily coffee mineral intake look like?, message = FALSE}
+
+scaled_mineral_df <- daily_value %>% 
+  left_join(macro_df) %>%
+  filter(Group == "mineral") %>%
+  mutate(Scaled_dv = round(Value/DV, digits = 3) * 100) %>%
+  na.omit()
+  
+#look at our dataframe
+scaled_mineral_df
+
+#get rid of funky unit name that causes issues
+scaled_mineral_df[scaled_mineral_df$Unit == "\xb5g", "Unit"] <- "g"
+  
+mineral_plot <- ggplot(scaled_mineral_df) +
+  geom_bar(stat = "identity", aes(x = reorder(NutrientName, Scaled_dv), Scaled_dv)) +
+  xlab("Mineral name") +
+  ylab("% Daily value") +
+  coord_flip()
+
+mineral_plot
+
+#interactive version of the plot with the value as a hovering tooltip
+ggplotly(mineral_plot, tooltip = "y")
+
+```
+
+All right, so we've used the Health Canada dataset to produce some tables and plots for nutrient info pertaining to a serving of coffee. The code works, but are we really just going to copy and paste the it for every food ingredient we want to know about? 
+
+Maybe we could wrap our code in a function that takes the food name as input and returns all of our tables and figures. What do we do if we want to add multiple ingredients together, though? It's clear that our notebook approach to this dataset doesn't really scale well. This is where Shiny comes in to play. We can replace the hard coded ingredient text that with an active input that updates our plots and tables when we change our ingredient.
