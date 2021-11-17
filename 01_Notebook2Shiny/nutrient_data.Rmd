@@ -5,14 +5,14 @@ output: html_notebook
 
 # Here's our starting notebook analysis of the Health Canada nutrient dataset
 
-```{r libraries and data importing}
+```{r libraries and data importing, message = FALSE}
 library(ggplot2)
 library(dplyr)
-library(DT)
+library(plotly)
 
 # What's in this Rdata file: save(ca_conversion_factor, ca_food_choices, ca_food_group, ca_food_name, ca_food_source, ca_measure_name, ca_nutrient_amount, ca_nutrient_name, ca_nutrient_source, ca_refuse_amount, ca_refuse_name, ca_yield_amount, ca_yield_name, daily_value, file = "nutrient_data.Rdata")
 
-load("nutrient_data.Rdata")
+load("../data/nutrient_data.Rdata")
 ```
 
 # We've got our data loaded, now what do we want to know?
@@ -25,7 +25,7 @@ head(ca_food_name)
 ```
 
 # What do my daily coffee macros look like?
-```{r what do my daily coffee macros look like?, message = FALSE}
+```{r what do my daily coffee macros look like, message = FALSE}
 
 #I'll need the ingredients, the amounts, and their respective macronutrients
 measure_df <- ca_food_name %>%
@@ -79,7 +79,7 @@ ggplotly(nutrient_plot, tooltip = "y")
 ```
 
 # What does my daily coffee mineral intake look like?
-```{r what does my daily coffee mineral intake look like?, message = FALSE}
+```{r what does my daily coffee mineral intake look like, message = FALSE}
 
 scaled_mineral_df <- daily_value %>% 
   left_join(macro_df) %>%
@@ -108,4 +108,4 @@ ggplotly(mineral_plot, tooltip = "y")
 
 All right, so we've used the Health Canada dataset to produce some tables and plots for nutrient info pertaining to a serving of coffee. The code works, but are we really just going to copy and paste the it for every food ingredient we want to know about? 
 
-Maybe we could wrap our code in a function that takes the food name as input and returns all of our tables and figures. What do we do if we want to add multiple ingredients together, though? It's clear that our notebook approach to this dataset doesn't really scale well. This is where Shiny comes in to play. We can replace the hard coded ingredient text that with an active input that updates our plots and tables when we change our ingredient.
+Maybe we could wrap our code in a function that takes the food name as input and returns all of our tables and figures. What do we do if we want to add multiple ingredients together, though? It's clear that our notebook approach to this dataset doesn't really scale well. This is where Shiny comes in to play. We can replace the hard-coded ingredient text that with an active input that updates our plots and tables when we change our ingredient.

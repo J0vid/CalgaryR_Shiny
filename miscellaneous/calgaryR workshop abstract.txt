@@ -1,0 +1,8 @@
+Shiny is an R framework for interacting with data through a web app. If you have complex data that is either continuously updated or big enough for people to explore for their own insights, Shiny is a fantastic library for creating visual tools to open up your data to the broader community. Shiny apps can easily be deployed to the web, allowing others to leverage your data and analyses without the fuss of installing anything or writing code.
+
+In this workshop, we will learn the basics of making a Shiny application, starting with how you can take your existing analyses and make them work with user selectable inputs. We’ll also go over some tips for making your Shiny app work efficiently and look slick. Finally, we will go over deploying your Shiny application to a live website for anyone to use.
+
+If you’d like to follow along with the workshop, make sure to download the Github repository from https://github.com/J0vid/CalgaryR_Shiny. The GitHub readme briefly outlines the goals of the workshop, as well as potential future topics.
+
+About the speaker:
+David Aponte is a PhD Candidate in medical science at the University of Calgary. His dissertation work has focused on how genetic variation produces facial shape variation in mice and humans. He has used R for a wide array of projects like measuring color patterns from image data and identifying genetic syndromes from measurements of facial shape. 

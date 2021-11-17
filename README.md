@@ -8,6 +8,7 @@ Here are the packages that we'll use in this workshop:
 install.packages("shiny")
 install.packages("ggplot")
 install.packages("plotly")
+install.packages("dplyr")
 
 # Package for profiling code
 install.packages("profvis")
