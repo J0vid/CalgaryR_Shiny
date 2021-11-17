@@ -1,0 +1,23 @@
+---
+title: "Profiling a Shiny app"
+output: html_notebook
+---
+
+This code will launch the Shiny app we converted from the notebook. Click a few of the buttons and then hit the stop button. Provis will then return a profile showing how long each part of the code took to execute. 
+
+```{r code profiling}
+library(profvis)
+
+#set working directory to the location of this file on your computer
+setwd(dirname(rstudioapi::getSourceEditorContext()$path))
+
+profvis({
+  #run the app in the Notebook2Shiny folder
+  runApp("../01_Notebook2Shiny/")
+})
+
+```
+
+Don't sweat it if your profiling didn't work. You can open up an old profile I ran and saved to this folder called "shiny_profile_example.Rprofvis".
+
+The big takeaway is that each time we want to render a datatable *and* plot, we have to run the same calculation twice because of the way I wrote the code. The way to avoid that is to create a **reactive**. A reactive is a function that does a calculation and holds the result for multiple outputs to use. When the inputs change, the reactive will update and pass the updated values to any output that calls on it.
