@@ -5,4 +5,4 @@ In this workshop, we will learn the basics of making a Shiny application, starti
 If you’d like to follow along with the workshop, make sure to download the Github repository from https://github.com/J0vid/CalgaryR_Shiny. The GitHub readme briefly outlines the goals of the workshop, as well as potential future topics.
 
 About the speaker:
-David Aponte is a PhD Candidate in medical science at the University of Calgary. His dissertation work has focused on how genetic variation produces facial shape variation in mice and humans. He has used R for a wide array of projects like analyzing flight patterns of fruit flies, measuring color patterns from image data, and identifying genetic syndromes from measurements of facial shape. 
+David Aponte is a PhD Candidate in medical science at the University of Calgary. His dissertation work has focused on how genetic variation produces facial shape variation in mice and humans. He has used R for a wide array of projects like measuring color patterns from image data and identifying genetic syndromes from measurements of facial shape. 
