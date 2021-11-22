@@ -11,25 +11,41 @@ library(bslib)
 load("../data/nutrient_data.Rdata")
 
 # Let's define our user interface (UI)####
-ui <- fluidPage(
+body <- dashboardBody(
+  tags$head(tags$link(rel = "stylesheet", type = "text/css", href = "shiny_style.css")),
   # Application title
   titlePanel("Health Canada Nutrient Calculator"),
   
   # Sidebar with a selector for food item and for the amount of food
-  sidebarLayout(
-    sidebarPanel(
+  fluidRow(
+    column(width = 6,
       selectInput(inputId = "ingredient", label = "Which item?", choices = ca_food_name$FoodDescription, multiple = F),
-      selectizeInput('selected_units', 'What unit to use', choices = c("Select an ingredient" = "")),
+      selectizeInput('selected_units', 'What unit to use', choices = c("Select an ingredient" = ""))
+      ),
+    column(width = 6,
       sliderInput("amount", "How much",  1,200, 1),
       actionButton("update_calculation", "Update nutrients")
-    ),
+      ),
     
     # Show interactive tables and plots of the mineral and macronutrient content of the selected food item
-    mainPanel(
-      dataTableOutput("nutrientTable"),
+    column(width = 12, align = "center",
+    box(title = tags$b("Nutrient Table"),
+      dataTableOutput("nutrientTable", width = "50%")
+    ),
+    box(title = tags$b("Nutrient Plot"),
       plotlyOutput("nutrientPlot")
     )
+    )
   )
+)
+
+dbHeader <- dashboardHeader()
+dbHeader$children[[2]]$children <-  tags$a(href='../', tags$img(src="images/ac.jpg",height='30',width='116'))
+
+ui <- dashboardPage(title = "CalgaryR meetup",
+                    dbHeader,
+                    dashboardSidebar(disable = T),
+                    body
 )
 
 # Let's define our server logic####
