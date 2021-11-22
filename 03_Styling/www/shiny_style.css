@@ -1,3 +1,44 @@
 .skin-blue .main-header .navbar{
-background-color: darkred;
+background-color: #6C7994;
 }
+
+.skin-blue .main-header .logo{
+  background-color: #6C7994;
+}
+
+.skin-blue .main-header .logo:hover{
+  background-color: #6C7994;
+}
+
+.box-body{
+  border-bottom-right-radius: 5px;
+  border-bottom-left-radius: 5px;
+}
+
+.content-wrapper{
+  background-color: #FAFCFF;
+}
+
+.box-header{
+    color: black;
+    border-top-left-radius:5px;
+    border-top-right-radius:5px;
+  }
+
+.box{
+    background: #FAFCFF;
+    border-bottom-color:#6C7994;
+    border-left-color:#6C7994;
+    border-right-color:#6C7994;
+    border-top-color:#91815D;
+    border-top-left-radius:5px;
+    border-top-right-radius:5px;
+    max-width: 1400px;
+    border-bottom-width: 3px;
+    border-right-width: 3px;
+    border-left-width: 3px;
+  }
+
+
+
+

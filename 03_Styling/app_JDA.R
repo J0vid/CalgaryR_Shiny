@@ -30,7 +30,7 @@ body <- dashboardBody(
     # Show interactive tables and plots of the mineral and macronutrient content of the selected food item
     column(width = 12, align = "center",
     box(title = tags$b("Nutrient Table"),
-      dataTableOutput("nutrientTable", width = "50%")
+      dataTableOutput("nutrientTable", width = "100%")
     ),
     box(title = tags$b("Nutrient Plot"),
       plotlyOutput("nutrientPlot")
@@ -51,9 +51,6 @@ ui <- dashboardPage(title = "CalgaryR meetup",
 # Let's define our server logic####
 server <- function(input, output, session){
   # The calculations for each output we've defined for the mainPanel() should go here
-  
-  
-  
   
   nutrient_reactive <- reactive({
     #if you'd like to pause the calculation until you click the update button, swap the line of code above with: nutrient_reactive <- eventReactive(input$update_calculation, {
@@ -114,7 +111,7 @@ server <- function(input, output, session){
     updateSelectInput(session, "selected_units", label = "Which units?", choices = unique(nutrient_reactive()[[2]][["units"]]), selected = selected_units)
     
     # we also want to update the slider for the amount of the selected food in the units selected. This requires a bit of checking for situations like checking for a range of values when ml/g are selected, or changing the scale for integer style units like 1 "order/serving"
-    if(input$selected_units != ""){
+    if(input$selected_units != ""){ # conditional to prevent an error message from showing before a unit is selected
     if(input$selected_units == "ml" | input$selected_units == "g"){
       if(unit_dims > 1) updateSliderInput(session, "amount", label = paste0("Amount in ", selected_units), min = slider_min, max = slider_max)
       if(unit_dims == 1) updateSliderInput(session, "amount", label = paste0("Amount in ", selected_units), min = slider_min, max = slider_max + 200)
@@ -123,10 +120,12 @@ server <- function(input, output, session){
   })
 
   output$nutrientTable <- renderDataTable({
-    print(unique(nutrient_reactive()[[2]]$units))
+    
     nutrient_reactive()[[1]]
     
-  })
+  }, options = list(
+    autoWidth = FALSE, scrollX = TRUE #prevents overflow of datatable out of box
+    ))
   
   output$nutrientPlot <- renderPlotly({
     
