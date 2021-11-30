@@ -30,7 +30,7 @@ body <- dashboardBody(
     # Show interactive tables and plots of the mineral and macronutrient content of the selected food item
     column(width = 12, align = "center",
     box(title = tags$b("Nutrient Table"),
-      dataTableOutput("nutrientTable", width = "100%")
+      dataTableOutput("nutrientTable")
     ),
     box(title = tags$b("Nutrient Plot"),
       plotlyOutput("nutrientPlot")
@@ -135,6 +135,7 @@ server <- function(input, output, session){
       geom_bar(stat = "identity", aes(x = reorder(NutrientName, Scaled_dv), Scaled_dv)) +
       xlab("Nutrient name") +
       ylab("% Daily value") +
+      theme(plot.background = element_rect(fill = "#FAFCFF")) +
       coord_flip()
     
     #interactive version of the plot with the value as a hovering tooltip
