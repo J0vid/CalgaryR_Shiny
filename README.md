@@ -14,7 +14,7 @@ install.packages("dplyr")
 install.packages("profvis")
 
 # Packages for making your application look different
-install.packages("flexdashboard")
+install.packages("shinydashboard")
 install.packages("bslib")
 ```
 # The general structure of this workshop
