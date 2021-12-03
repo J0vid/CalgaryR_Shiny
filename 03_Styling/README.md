@@ -1,6 +1,6 @@
 ### Options for styling your Shiny app
 
-There are a whole host of options for styling your Shiny applications. I tried to provide a couple examples of that use different approaches. The first example called [app.R](app.R) uses a combination of the shinydashboard package for the layout and a linked css file for styling. The [second example](app_BSlib.R) uses regular ol' Shiny for layout and bslib for styling. I'm not terribily familiar with bslib, but I came away impressed with how easily it can change the look of an app. The biggest downside to bslib (for me) is that it is not compatible with shinydashboard.
+There are a whole host of options for styling your Shiny applications. The main app.R file shows an unstyled app that's trying to do too much at a time. I tried to provide a couple examples of apps that use different approaches. The first example called [app_JDA.R](app_JDA.R) uses a combination of the shinydashboard package for the layout and a linked css file for styling. The [second example](app_BSlib.R) uses regular ol' Shiny for layout and bslib for styling. I'm not terribily familiar with bslib, but I came away impressed with how easily it can change the look of an app. The biggest downside to bslib (for me) is that it is not compatible with shinydashboard.
 
 Here's a quick list of packages that you can use for styling and layout.
 
