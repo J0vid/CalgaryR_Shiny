@@ -20,9 +20,9 @@ install.packages("bslib")
 # The general structure of this workshop
 If you are familiar with writing R code, then you probably won't have much trouble converting it to work with user selectable inputs. In fact, that's how this workshop starts! We'll look at an R notebook that makes cool example visualizations with a toy dataset. Then we'll look at what it takes to convert that R notebook into a functioning Shiny app.
 
-At first we focused mostly on just converting our R code into something that works with Shiny. We got something that works, but maybe there are more efficient ways to structure our code to run better in the Shiny context. Let's find out by profiling our code with [profvis](https://rstudio.github.io/profvis/index.html).
+At first we focused mostly on just converting our R code into something that works with Shiny in the simplest ways possible. We got something that works, but there may be more efficient ways to structure our code to run better in the Shiny context. That's exactly the kind of thing we can test by profiling our code with [profvis](https://rstudio.github.io/profvis/index.html).
 
-Next, we'll start thinking about [reactivity](https://shiny.rstudio.com/articles/reactivity-overview.html), which is the underlying logic that controls how Shiny works. 
+Next, we'll start thinking about [reactivity](https://shiny.rstudio.com/articles/reactivity-overview.html), which is the underlying logic that controls how Shiny works, when and how it updates the outputs we've specified. 
 
 After reactivity, we'll go over customizing the look of your Shiny app with packages like [shinydashboard](https://rstudio.github.io/shinydashboard/) and [bslib](https://rstudio.github.io/bslib/index.html). If there's time, we'll go through writing your own CSS to customize the look of your app.
 
@@ -36,7 +36,7 @@ I picked this dataset because the amount of stuff to explore in it is immense. T
 ---
 
 # Where to go from here
-I suspect that's all we'll have time to get to. That won't stop me from thinking about some more advanced topics to potentially cover in the future! Here's what I'm considering:
+I suspect that's all we'll have time to get to, but that won't stop me from thinking about some more advanced topics to potentially cover in the future! Here's what I'm considering:
 
 - Dynamic UIs
 - Conditional UIs
