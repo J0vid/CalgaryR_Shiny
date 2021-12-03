@@ -4,7 +4,6 @@ library(ggplot2)
 library(dplyr)
 library(plotly)
 library(shiny)
-library(flexdashboard)
 library(bslib)
 
 # What's in this Rdata file: save(ca_conversion_factor, ca_food_choices, ca_food_group, ca_food_name, ca_food_source, ca_measure_name, ca_nutrient_amount, ca_nutrient_name, ca_nutrient_source, ca_refuse_amount, ca_refuse_name, ca_yield_amount, ca_yield_name, daily_value, file = "nutrient_data.Rdata")
@@ -13,7 +12,7 @@ load("../data/nutrient_data.Rdata")
 # Let's define a bstheme to use. Custom themes below come from https://unleash-shiny.rinterface.com/beautify-with-bootstraplib.html#beautify-with-bootstraplib
 # very bright theme
 bslib_theme <-  bs_theme(
-  version = 5, 
+  version = 5,
   bg = "#000000",
   fg = "#FFFFFF",
   primary = "#9600FF",
@@ -27,12 +26,12 @@ bslib_theme <-  bs_theme(
   code_font = "Chalkduster"
 )
 
-# win98 look?!?
+# # win98 look?!?
 # win98_cdn <- "https://cdn.jsdelivr.net/npm/98.css@0.1.16/"
 # win98_css <- paste0(win98_cdn, "dist/98.min.css")
 # windows_grey <- "#c0c0c0"
 # bslib_theme <- bs_theme(
-#   version = 4, 
+#   version = 4,
 #   bg = windows_grey,
 #   fg = "#222222",
 #   primary = "#03158b",
@@ -58,34 +57,33 @@ ui <- fluidPage(
   theme = bslib_theme,
   # Application title
   titlePanel("Health Canada Nutrient Calculator"),
-  
-
-
-      selectInput(inputId = "ingredient", label = "Which item?", choices = ca_food_name$FoodDescription, multiple = F),
-      selectizeInput('selected_units', 'What unit to use', choices = "ml"),
-      sliderInput("amount", "How much",  1,200, 1),
-      actionButton("update_calculation", "Update nutrients")
-    ,
-    
+  fluidRow(
+  column(width = 3, selectInput(inputId = "ingredient", label = "Which item?", choices = ca_food_name$FoodDescription, multiple = F)),
+  column(width = 3, selectizeInput('selected_units', 'What unit to use', choices = "ml")),
+  column(width = 3, sliderInput("amount", "How much",  1,200, 1)),
+  column(width = 3, actionButton("update_calculation", "Update nutrients")),
+  hr(),
     # Show interactive tables and plots of the mineral and macronutrient content of the selected food item
-    mainPanel(
-      dataTableOutput("nutrientTable"),
-      plotlyOutput("macroPlot"),
-      plotlyOutput("vitaminPlot"),
-      plotlyOutput("mineralPlot")
-    )
+      column(width = 6,
+             dataTableOutput("nutrientTable"),
+             br(),
+             plotlyOutput("macroPlot")
+             ),
+      
+      column(width = 6, 
+             plotlyOutput("vitaminPlot"),
+             br(),
+             plotlyOutput("mineralPlot")
+             )
+  )
 )
 
 # Let's define our server logic####
 server <- function(input, output, session){
   # The calculations for each output we've defined for the mainPanel() should go here
   
-  
-  
-  
-  # nutrient_reactive <- reactive({
-    #if you'd like to pause the calculation until you click the update button, swap the line of code above with: 
-  nutrient_reactive <- eventReactive(input$update_calculation, {
+  nutrient_reactive <- reactive({
+    #if you'd like to pause the calculation until you click the update button, swap the line of code above with: nutrient_reactive <- eventReactive(input$update_calculation, {
     print(input$selected_units)
     
     food_choice <- input$ingredient
@@ -165,7 +163,7 @@ server <- function(input, output, session){
     
     nutrient_plot <- ggplot(scaled_nutrient_df) +
       geom_bar(stat = "identity", aes(x = reorder(NutrientName, Scaled_dv), Scaled_dv)) +
-      xlab("Macro name") +
+      xlab("Macro") +
       ylab("% Daily value") +
       coord_flip()
     
@@ -181,7 +179,7 @@ server <- function(input, output, session){
     
     nutrient_plot <- ggplot(scaled_nutrient_df) +
       geom_bar(stat = "identity", aes(x = reorder(NutrientName, Scaled_dv), Scaled_dv)) +
-      xlab("Vitamin name") +
+      xlab("Vitamin") +
       ylab("% Daily value") +
       coord_flip()
     
@@ -197,7 +195,7 @@ server <- function(input, output, session){
     
     nutrient_plot <- ggplot(scaled_nutrient_df) +
       geom_bar(stat = "identity", aes(x = reorder(NutrientName, Scaled_dv), Scaled_dv)) +
-      xlab("Mineral name") +
+      xlab("Mineral") +
       ylab("% Daily value") +
       coord_flip()
     
