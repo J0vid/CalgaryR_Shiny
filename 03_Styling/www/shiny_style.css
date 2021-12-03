@@ -1,3 +1,7 @@
+.wrapper{
+  background-color: #fafcfff5;
+}
+
 .skin-blue .main-header .navbar{
 background-color: #6C7994;
 }
@@ -10,13 +14,25 @@ background-color: #6C7994;
   background-color: #6C7994;
 }
 
+.main-sidebar{
+  background-color: #6C7994;
+}
+
+.selectize-input .selectize-control{
+  background: #FAFCFF;
+}
+
+.irs--shiny .irs-single{
+  background-color: #6C7994;
+}
+
 .box-body{
   border-bottom-right-radius: 5px;
   border-bottom-left-radius: 5px;
 }
 
 .content-wrapper{
-  background-color: #FAFCFF;
+  background-color: #fafcfff5;
 }
 
 .box-header{
@@ -34,10 +50,9 @@ background-color: #6C7994;
     border-top-left-radius:5px;
     border-top-right-radius:5px;
     max-width: 1400px;
-    border-bottom-width: 3px;
-    border-right-width: 3px;
-    border-left-width: 3px;
+    box-shadow: 4px 10px 10px 0 rgba(0,0,0,.1);
   }
+  
 
 
 
