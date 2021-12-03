@@ -9,5 +9,6 @@ docker build -t shinies 04_Deploying/
 and here's how to run the image in a container, linking your local repo to the right directory in the server build:
 
 ```bash
-docker run -p 3838:3838 -v .:/srv/shiny-server/ shinies
+docker run -p 3838:3838 -v ~/shiny/shinyapps/CalgaryR_Shiny/:/srv/shiny-server/ shinies
 ```
+you'll have to change your directory to the location of the repo on your personal computer.
