@@ -27,7 +27,9 @@ ui <- fluidPage(
     # Show interactive tables and plots of the mineral and macronutrient content of the selected food item
     mainPanel(
       dataTableOutput("nutrientTable"),
-      plotlyOutput("nutrientPlot")
+      plotlyOutput("macroPlot"),
+      plotlyOutput("vitaminPlot"),
+      plotlyOutput("mineralPlot")
     )
   )
 )
@@ -35,9 +37,6 @@ ui <- fluidPage(
 # Let's define our server logic####
 server <- function(input, output, session){
   # The calculations for each output we've defined for the mainPanel() should go here
-  
-  
-  
   
   nutrient_reactive <- reactive({
     #if you'd like to pause the calculation until you click the update button, swap the line of code above with: nutrient_reactive <- eventReactive(input$update_calculation, {
@@ -88,37 +87,71 @@ server <- function(input, output, session){
   unit_selector <- observe({
     reactive_data <- nutrient_reactive()[[2]]
     reactive_data <- reactive_data[reactive_data$units == input$selected_units,]
-
+    
     selected_units <- reactive_data$units[1]
     unit_dims <- nrow(reactive_data)
     slider_min <- min(reactive_data$numeric)
     slider_max <- max(reactive_data$numeric)
-
+    
     # we want to update the options for units based on what's available in the dataset for the selected food item
-    updateSelectInput(session, "selected_units", label = "Which units?", choices = unique(nutrient_reactive()[[2]][["units"]]), selected = selected_units)
+    updateSelectizeInput(session, "selected_units", label = "Which units?", choices = unique(nutrient_reactive()[[2]][["units"]]), selected = selected_units)
     
     # we also want to update the slider for the amount of the selected food in the units selected. This requires a bit of checking for situations like checking for a range of values when ml/g are selected, or changing the scale for integer style units like 1 "order/serving"
     if(input$selected_units != ""){
-    if(input$selected_units == "ml" | input$selected_units == "g"){
-      if(unit_dims > 1) updateSliderInput(session, "amount", label = paste0("Amount in ", selected_units), min = slider_min, max = slider_max)
-      if(unit_dims == 1) updateSliderInput(session, "amount", label = paste0("Amount in ", selected_units), min = slider_min, max = slider_max + 200)
-    } else{updateSliderInput(session, "amount", label = paste0("Amount in ", selected_units), min = 1, max = 5, step = 1)}
+      if(input$selected_units == "ml" | input$selected_units == "g"){
+        if(unit_dims > 1) updateSliderInput(session, "amount", label = paste0("Amount in ", selected_units), min = slider_min, max = slider_max)
+        if(unit_dims == 1) updateSliderInput(session, "amount", label = paste0("Amount in ", selected_units), min = slider_min, max = slider_max + 200)
+      } else{updateSliderInput(session, "amount", label = paste0("Amount in ", selected_units), min = 1, max = 5, step = 1)}
     }
   })
-
+  
   output$nutrientTable <- renderDataTable({
-    print(unique(nutrient_reactive()[[2]]$units))
-    nutrient_reactive()[[1]]
+    
+    nutrient_reactive()[[1]] %>%
+      select(c("Nutrient", "Group", "Value", "Unit", "Scaled_dv"))
     
   })
   
-  output$nutrientPlot <- renderPlotly({
+  output$macroPlot <- renderPlotly({
     
-    scaled_nutrient_df <- nutrient_reactive()[[1]]
+    scaled_nutrient_df <- nutrient_reactive()[[1]] %>%
+      filter(Group == "macronutrients")
     
     nutrient_plot <- ggplot(scaled_nutrient_df) +
       geom_bar(stat = "identity", aes(x = reorder(NutrientName, Scaled_dv), Scaled_dv)) +
-      xlab("Nutrient name") +
+      xlab("Macro") +
+      ylab("% Daily value") +
+      coord_flip()
+    
+    #interactive version of the plot with the value as a hovering tooltip
+    ggplotly(nutrient_plot, tooltip = "y")
+    
+  })
+  
+  output$vitaminPlot <- renderPlotly({
+    
+    scaled_nutrient_df <- nutrient_reactive()[[1]] %>%
+      filter(Group == "vitamin")
+    
+    nutrient_plot <- ggplot(scaled_nutrient_df) +
+      geom_bar(stat = "identity", aes(x = reorder(NutrientName, Scaled_dv), Scaled_dv)) +
+      xlab("Vitamin") +
+      ylab("% Daily value") +
+      coord_flip()
+    
+    #interactive version of the plot with the value as a hovering tooltip
+    ggplotly(nutrient_plot, tooltip = "y")
+    
+  })
+  
+  output$mineralPlot <- renderPlotly({
+    
+    scaled_nutrient_df <- nutrient_reactive()[[1]] %>%
+      filter(Group == "mineral")
+    
+    nutrient_plot <- ggplot(scaled_nutrient_df) +
+      geom_bar(stat = "identity", aes(x = reorder(NutrientName, Scaled_dv), Scaled_dv)) +
+      xlab("Mineral") +
       ylab("% Daily value") +
       coord_flip()
     
@@ -131,6 +164,3 @@ server <- function(input, output, session){
 
 # With UI and server defined, we're ready to run the app!####
 shinyApp(ui = ui, server = server)
-
-# At this point, we've explored some basic principles of the reactive paradigm that Shiny uses to control the flow of information through the app. In the next section, we'll take a more complex version of this app and start styling it with flexdashboard.
-
