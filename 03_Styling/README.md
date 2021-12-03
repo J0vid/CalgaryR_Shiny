@@ -13,6 +13,7 @@ Here's a quick list of packages that you can use for styling and layout.
 ### How to write your own CSS for your app
 When you're pretty new to web development like I am, it can be pretty time consuming to contruct the styling your looking for with pure css. I usually use the inspector tools in web browsers to look at an element I'm interested in styling. I'll try out a bunch of colors and styles directly in the browser and when I'm happy with the look of that element, I'll add it to my css file. I'm sure there are more efficient ways to go about this, but this is the way that I have done my styling thus far!
 
+![There was a gif here. Oops.](images/inspector_ex.gif)
 
 ### More reading
 
