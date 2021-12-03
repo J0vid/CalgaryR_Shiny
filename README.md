@@ -24,7 +24,7 @@ At first we focused mostly on just converting our R code into something that wor
 
 Next, we'll start thinking about [reactivity](https://shiny.rstudio.com/articles/reactivity-overview.html), which is the underlying logic that controls how Shiny works. 
 
-After reactivity, we'll go over customizing the look of your Shiny app with packages like [flexdashboard](https://pkgs.rstudio.com/flexdashboard/) and [bslib](https://rstudio.github.io/bslib/index.html). If there's time, we'll go through writing your own CSS to customize the look of your app.
+After reactivity, we'll go over customizing the look of your Shiny app with packages like [shinydashboard](https://rstudio.github.io/shinydashboard/) and [bslib](https://rstudio.github.io/bslib/index.html). If there's time, we'll go through writing your own CSS to customize the look of your app.
 
 Finally, we'll cover a few options for deploying your Shiny app to the web. 
 
