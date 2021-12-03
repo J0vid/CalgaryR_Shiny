@@ -1,0 +1,59 @@
+.wrapper{
+  background-color: #fafcfff5;
+}
+
+.skin-blue .main-header .navbar{
+background-color: #6C7994;
+}
+
+.skin-blue .main-header .logo{
+  background-color: #6C7994;
+}
+
+.skin-blue .main-header .logo:hover{
+  background-color: #6C7994;
+}
+
+.main-sidebar{
+  background-color: #6C7994;
+}
+
+.selectize-input .selectize-control{
+  background: #FAFCFF;
+}
+
+.irs--shiny .irs-single{
+  background-color: #6C7994;
+}
+
+.box-body{
+  border-bottom-right-radius: 5px;
+  border-bottom-left-radius: 5px;
+}
+
+.content-wrapper{
+  background-color: #fafcfff5;
+}
+
+.box-header{
+    color: black;
+    border-top-left-radius:5px;
+    border-top-right-radius:5px;
+  }
+
+.box{
+    background: #FAFCFF;
+    border-bottom-color:#6C7994;
+    border-left-color:#6C7994;
+    border-right-color:#6C7994;
+    border-top-color:#91815D;
+    border-top-left-radius:5px;
+    border-top-right-radius:5px;
+    max-width: 1400px;
+    box-shadow: 4px 10px 10px 0 rgba(0,0,0,.1);
+  }
+  
+
+
+
+

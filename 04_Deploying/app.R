@@ -7,7 +7,7 @@ library(shiny)
 library(shinydashboard)
 
 # What's in this Rdata file: save(ca_conversion_factor, ca_food_choices, ca_food_group, ca_food_name, ca_food_source, ca_measure_name, ca_nutrient_amount, ca_nutrient_name, ca_nutrient_source, ca_refuse_amount, ca_refuse_name, ca_yield_amount, ca_yield_name, daily_value, file = "nutrient_data.Rdata")
-load("../data/nutrient_data.Rdata")
+load("nutrient_data.Rdata")
 
 # Let's define our user interface (UI)####
 body <- dashboardBody(
