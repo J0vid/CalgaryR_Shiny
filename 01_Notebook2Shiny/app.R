@@ -110,9 +110,6 @@ server <- function(input, output){
       mutate(Scaled_dv = round(Value/DV, digits = 3) * 100) %>%
       na.omit()
     
-    # Tell shiny what table we want to render
-    scaled_nutrient_df
-    
     scaled_nutrient_df[scaled_nutrient_df$Unit == "\xb5g", "Unit"] <- "g"
     
     nutrient_plot <- ggplot(scaled_nutrient_df) +

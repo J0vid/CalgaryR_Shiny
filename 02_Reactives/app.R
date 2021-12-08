@@ -34,7 +34,7 @@ server <- function(input, output){
   # The calculations for each output we've defined for the mainPanel() should go here
   
   nutrient_reactive <- reactive({
-    #if you'd like to pause the calculation until you click the update button, swap the line of code above with: nutrient_reactive <- eventReactive(input$update_calculation, {
+    # If you'd like to pause the calculation until you click the update button, swap the line of code above with: nutrient_reactive <- eventReactive(input$update_calculation, {
     
     food_choice <- input$ingredient
     food_amount <- input$amount
@@ -69,7 +69,7 @@ server <- function(input, output){
       mutate(Scaled_dv = round(Value/DV, digits = 3) * 100) %>%
       na.omit()
     
-    #fix funky units
+    # fix funky units
     scaled_nutrient_df[scaled_nutrient_df$Unit == "\xb5g", "Unit"] <- "g"
     scaled_nutrient_df
     
@@ -91,7 +91,7 @@ server <- function(input, output){
       ylab("% Daily value") +
       coord_flip()
     
-    #interactive version of the plot with the value as a hovering tooltip
+    # interactive version of the plot with the value as a hovering tooltip
     ggplotly(nutrient_plot, tooltip = "y")
     
   })

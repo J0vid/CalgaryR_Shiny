@@ -1,4 +1,4 @@
-# nutrition calculator app with some flair added to it
+# nutrition calculator app with some flair added to it, ready to be deployed
 # load libraries and data####
 library(ggplot2)
 library(dplyr)
@@ -16,24 +16,28 @@ body <- dashboardBody(
   titlePanel("Health Canada Nutrient Calculator"),
   
     # Show interactive tables and plots of the mineral and macronutrient content of the selected food item
-    column(width = 12, align = "center",
-    box(title = tags$b("Nutrient Table"),
-        collapsible = T,
-        dataTableOutput("nutrientTable")
-    ),
-    box(title = tags$b("Macro Plot"),
+    column(width = 12,
+    box(width = 6,
+        title = tags$b("Macro Plot"),
         collapsible = T,
         plotlyOutput("macroPlot")
     ),
-    box(title = tags$b("Vitamin Plot"),
+    box(width = 6,
+        title = tags$b("Vitamin Plot"),
         collapsible = T,
         plotlyOutput("vitaminPlot")
     ),
-    box(title = tags$b("Mineral Plot"),
+    box(width = 6,
+        title = tags$b("Mineral Plot"),
         collapsible = T,
         plotlyOutput("mineralPlot")
+    ),
+    box(width = 6,
+        title = tags$b("Nutrient Table"),
+        collapsible = T,
+        dataTableOutput("nutrientTable")
     )
-    )
+  )
 )
 
 sidebarInputs <- dashboardSidebar(
