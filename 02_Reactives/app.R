@@ -16,7 +16,7 @@ ui <- fluidPage(
   # Sidebar with a selector for food item and for the amount of food
   sidebarLayout(
     sidebarPanel(
-      selectInput(inputId = "ingredient", label = "Which item?", choices = ca_food_name$FoodDescription, multiple = F),
+      selectInput(inputId = "ingredient", label = "Which item?", choices = utf8::utf8_encode(ca_food_name$FoodDescription), multiple = F),
       sliderInput(inputId = "amount", label = "How much?", min = 2, max = 500, step = 20, value = 250), 
       actionButton("update_calculation", "Update nutrients")
     ),

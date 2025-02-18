@@ -42,7 +42,7 @@ body <- dashboardBody(
 
 sidebarInputs <- dashboardSidebar(
   # Sidebar with a selector for food item and for the amount of food
-  selectizeInput(inputId = "ingredient", label = "Which item?", choices = ca_food_name$FoodDescription, multiple = F),
+  selectizeInput(inputId = "ingredient", label = "Which item?", choices = utf8::utf8_encode(ca_food_name$FoodDescription), multiple = F),
   selectizeInput('selected_units', 'What unit to use', choices = "ml"),
   sliderInput("amount", "How much",  1,200, 1)
 

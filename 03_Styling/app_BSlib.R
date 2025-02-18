@@ -58,7 +58,7 @@ ui <- fluidPage(
   # Application title
   titlePanel("Health Canada Nutrient Calculator"),
   fluidRow(
-  column(width = 3, selectInput(inputId = "ingredient", label = "Which item?", choices = ca_food_name$FoodDescription, multiple = F)),
+  column(width = 3, selectInput(inputId = "ingredient", label = "Which item?", choices = utf8::utf8_encode(ca_food_name$FoodDescription), multiple = F)),
   column(width = 3, selectizeInput('selected_units', 'What unit to use', choices = "ml")),
   column(width = 3, sliderInput("amount", "How much",  1,200, 1)),
   column(width = 3, actionButton("update_calculation", "Update nutrients")),

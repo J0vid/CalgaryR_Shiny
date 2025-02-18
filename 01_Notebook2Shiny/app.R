@@ -16,13 +16,13 @@ ui <- fluidPage(
   # Sidebar with a selector for food item and for the amount of food
   sidebarLayout(
     sidebarPanel(
-      selectInput(inputId = "ingredient", label = "Which item?", choices = ca_food_name$FoodDescription, multiple = F),
+      selectInput(inputId = "ingredient", label = "Which item?", choices = utf8::utf8_encode(ca_food_name$FoodDescription), multiple = F),
       sliderInput(inputId = "amount", label = "How much?", min = 2, max = 500, step = 20, value = 250)
     ),
     
     # Show interactive tables and plots of the mineral and macronutrient content of the selected food item
     mainPanel(
-      dataTableOutput("nutrientTable"),
+      DT::DTOutput("nutrientTable"),
       plotlyOutput("nutrientPlot")
     )
   )
@@ -31,96 +31,96 @@ ui <- fluidPage(
 # Let's define our server logic####
 server <- function(input, output){
   # The calculations for each output we've defined for the mainPanel() should go here
-  
-  # An important difference between Shiny and normal R. Inputs can only be passed to an actively listening context.
+
+    # An important difference between Shiny and normal R. Inputs can only be passed to an actively listening context.
   # Uncomment this line and try to run the app: food_choice <- input$ingredient
   
-  output$nutrientTable <- renderDataTable({
-    
+  output$nutrientTable <- DT::renderDT({
+
     food_choice <- input$ingredient
     food_amount <- input$amount
-    
+
     measure_df <- ca_food_name %>%
-      filter(FoodDescription == food_choice) %>% 
+      filter(FoodDescription == food_choice) %>%
       select(FoodID) %>%
-      left_join(ca_conversion_factor) %>% 
-      left_join(ca_measure_name) %>% 
-      select(numeric, units, description, ConversionFactorValue, MeasureID, FoodID) 
-    
+      left_join(ca_conversion_factor) %>%
+      left_join(ca_measure_name) %>%
+      select(numeric, units, description, ConversionFactorValue, MeasureID, FoodID)
+
     measure_food_df <- measure_df %>%
       filter(numeric == min(numeric)) %>%
       left_join(ca_nutrient_amount) %>%
       left_join(ca_nutrient_name) %>%
       mutate(NutrientName = tolower(NutrientName)) %>%
       mutate(NutrientValue = NutrientValue * ConversionFactorValue * food_amount / numeric) %>%
-      select(NutrientName, NutrientValue, NutrientID, NutrientUnit, ConversionFactorValue, FoodID) %>% 
-      group_by(NutrientName) %>% 
+      select(NutrientName, NutrientValue, NutrientID, NutrientUnit, ConversionFactorValue, FoodID) %>%
+      group_by(NutrientName) %>%
       summarize(Value = round(sum(NutrientValue, na.rm = T), digits = 2),
                 Unit = NutrientUnit,
                 NutrientID = NutrientID)
-    
+
     select_nutrients <- c("calcium", "carbohydrate, total (by difference)", "cholesterol", "energy (kilocalories)", "fat (total lipids)", "fatty acids, saturated, total", "fatty acids, trans, total", "fibre, total dietary", "iron", "protein", "retinol activity equivalents", "sodium", "sugars, total", "vitamin c")
-    
+
     nutrient_df <- measure_food_df %>% filter(NutrientName %in% select_nutrients) %>%
       select(NutrientName, NutrientID, Value, Unit) %>%
       arrange(-Value)
-    
-    scaled_nutrient_df <- daily_value %>% 
+
+    scaled_nutrient_df <- daily_value %>%
       left_join(nutrient_df) %>%
       mutate(Scaled_dv = round(Value/DV, digits = 3) * 100) %>%
       na.omit()
-    
+
     # Tell shiny what table we want to render by returning it at the end
     scaled_nutrient_df
     
   })
   
   output$nutrientPlot <- renderPlotly({
-    
+
     food_choice <- input$ingredient
     food_amount <- input$amount
-    
+
     measure_df <- ca_food_name %>%
-      filter(FoodDescription == food_choice) %>% 
+      filter(FoodDescription == food_choice) %>%
       select(FoodID) %>%
-      left_join(ca_conversion_factor) %>% 
-      left_join(ca_measure_name) %>% 
-      select(numeric, units, description, ConversionFactorValue, MeasureID, FoodID) 
-    
+      left_join(ca_conversion_factor) %>%
+      left_join(ca_measure_name) %>%
+      select(numeric, units, description, ConversionFactorValue, MeasureID, FoodID)
+
     measure_food_df <- measure_df %>%
       filter(numeric == min(numeric)) %>%
       left_join(ca_nutrient_amount) %>%
       left_join(ca_nutrient_name) %>%
       mutate(NutrientName = tolower(NutrientName)) %>%
       mutate(NutrientValue = NutrientValue * ConversionFactorValue * food_amount / numeric) %>%
-      select(NutrientName, NutrientValue, NutrientID, NutrientUnit, ConversionFactorValue, FoodID) %>% 
-      group_by(NutrientName) %>% 
+      select(NutrientName, NutrientValue, NutrientID, NutrientUnit, ConversionFactorValue, FoodID) %>%
+      group_by(NutrientName) %>%
       summarize(Value = round(sum(NutrientValue, na.rm = T), digits = 2),
                 Unit = NutrientUnit,
                 NutrientID = NutrientID)
-    
+
     select_nutrients <- c("calcium", "carbohydrate, total (by difference)", "cholesterol", "energy (kilocalories)", "fat (total lipids)", "fatty acids, saturated, total", "fatty acids, trans, total", "fibre, total dietary", "iron", "protein", "retinol activity equivalents", "sodium", "sugars, total", "vitamin c")
-    
+
     nutrient_df <- measure_food_df %>% filter(NutrientName %in% select_nutrients) %>%
       select(NutrientName, NutrientID, Value, Unit) %>%
       arrange(-Value)
-    
-    scaled_nutrient_df <- daily_value %>% 
+
+    scaled_nutrient_df <- daily_value %>%
       left_join(nutrient_df) %>%
       mutate(Scaled_dv = round(Value/DV, digits = 3) * 100) %>%
       na.omit()
-    
+
     scaled_nutrient_df[scaled_nutrient_df$Unit == "\xb5g", "Unit"] <- "g"
-    
+
     nutrient_plot <- ggplot(scaled_nutrient_df) +
       geom_bar(stat = "identity", aes(x = reorder(NutrientName, Scaled_dv), Scaled_dv)) +
       xlab("Nutrient name") +
       ylab("% Daily value") +
       coord_flip()
-    
+
     #interactive version of the plot with the value as a hovering tooltip
     ggplotly(nutrient_plot, tooltip = "y")
-    
+
   })
   
 } # end server logic

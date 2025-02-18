@@ -9,6 +9,7 @@ install.packages("shiny")
 install.packages("ggplot")
 install.packages("plotly")
 install.packages("dplyr")
+install.packages("DT")
 
 # Package for profiling code
 install.packages("profvis")
